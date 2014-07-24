@@ -1,0 +1,104 @@
+<launch>
+  <!-- params -->
+
+
+  <!-- goal related parameters -->
+  <!-- goal point (goal_x,goal_y,goal_theta), goal region as circle centered with radius goal_radius on goal point-->
+  <!-- WARNING: parameters related to the scene1.xml file -->
+  <param name="goal_x" value="-1.0" type="double"/> 
+  <param name="goal_y" value="0.20" type="double"/> 
+  <param name="goal_theta" value="0.0" type="double"/> 
+  <param name="goal_radius" value="1.0" type="double"/> 
+  
+
+  <!-- planner related parameters -->
+  <!-- WARNING: parameters related to the scene1.xml file -->
+  <param name="x1" value="0.0" type="double"/>  <!-- xscene=x2-x1, yscene=y2-y1 -->
+  <param name="y1" value="0.0" type="double"/>
+  <param name="x2" value="50.0" type="double"/>
+  <param name="y2" value="30.0" type="double"/>
+
+  <param name="cell_size_x" value="1" type="double"/>
+  <param name="cell_size_y" value="1" type="double"/>
+
+
+  <!-- 
+       Choose between the type of stop condition 
+       value=1, based on max number of seconds allowed
+       value=0, based on max number of RRT iterations allowed
+   -->
+  <param name="TIMECOUNTER" value="1" type="int"/>
+    <!-- 
+       According to the TIMECOUNTER 
+       it represents:
+       - max number of seconds allowed or
+       - max number of RRT iterations allowed
+   -->
+  <param name="max_iterations" value="10" type="int"/>
+
+  <!-- 
+       Stop the planner at the first found solution
+       value=1
+   -->
+  <param name="FIRSTSOLUTION" value="1" type="int"/>
+  
+  <!-- 
+       Disply Debug info
+       value=1
+   -->
+  <param name="DEB_RRT" value="1" type="int"/>
+
+  <!-- If GOALPARAM == 1 the goal is loaded from parameters  -->
+  <param name="GOALPARAM" value="0" type="int"/>
+
+  <!-- planner related parameters: select the type of planner you prefer. 
+  value=0 RRT
+  value=1 RRT* with only one phase
+  value=2 RRT* full
+   -->
+  <param name="type_planner" value="2" type="int"/>
+
+
+  <param name="RHO_END" value="0.10" type="double" />
+
+
+ <!-- Need to choose the right distance metric
+         *  if DISTANCE_METRIC==0, use POSQ extender, then need to set proper resolution RES_POSQ
+         *  if DISTANCE_METRIC==1, use basis function model
+         *  if DISTANCE_METRIC==2, use neural network model
+   -->
+  <param name="DISTANCE_METRIC" value="1" type="int" />
+
+   <!-- Choose the integration time step used in the RRT/RRT* framework
+    
+   -->
+  <param name="DT" value="0.1" type="double" />
+
+  <!-- Choose the integration time step ore resolution of the distane metric computed with POSQ 
+    
+   -->
+  <param name="RES_POSQ" value="0.1" type="double" />
+
+
+  <!-- If BOX == 1 BallBox Theorem Applied when Nearest Vertex is choosed -->
+  <param name="BOX" value="0" type="int"/>
+
+  <!-- RADIUS is the value of the radius used to select the nearest vertex -->
+  <param name="RADIUS" value="10" type="double"/>
+
+
+
+ <!-- name of the node RRT* -->
+ <node pkg="srl_smp" name="srl_smp" type="srl_smp" respawn="false" output="screen" /> 
+
+ <!-- Steer robot params -->
+<param name="Ts" value=".1" type="double"/>
+<param name="B" value=".15" type="double"/>
+<param name="KONE" value=".051" type="double"/>
+<param name="KTWO" value=".051" type="double"/>
+
+ <node pkg="srl_smp" name="steer_robot" type="steer_robot" respawn="false" output="screen" /> 
+
+ <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pedsim_simulator)/rviz/scene1.rviz"/> -->
+
+</launch>
